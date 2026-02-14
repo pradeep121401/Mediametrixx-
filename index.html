@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaMetrixx - Professional Video Editing Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #050505;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Film Grain Effect */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Cinematic Gradient */
+        .cinematic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 100, 255, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 150, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 100, 200, 0.1) 0%, transparent 70%);
+            z-index: -2;
+            animation: breathe 10s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Logo Container with 3D Effect */
+        .logo-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(5deg); }
+        }
+
+        /* Logo Glow Effect */
+        .logo-glow {
+            position: absolute;
+            inset: -15px;
+            background: radial-gradient(circle, rgba(0, 100, 255, 0.6) 0%, transparent 70%);
+            filter: blur(25px);
+            animation: pulse 3s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Glass Card for Logo */
+        .logo-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 100, 255, 0.25),
+                inset 0 0 80px rgba(0, 100, 255, 0.1);
+        }
+
+        /* Video Player Styles */
+        .showreel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 100, 255, 0.3);
+        }
+
+        .showreel-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 24px;
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .showreel-container:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 100, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 40px rgba(0, 100, 255, 0.5);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: rgba(0, 100, 255, 1);
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #0064ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00c3ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(30px, 9999px, 15px, 0); }
+            20% { clip: rect(85px, 9999px, 95px, 0); }
+            40% { clip: rect(10px, 9999px, 65px, 0); }
+            60% { clip: rect(70px, 9999px, 45px, 0); }
+            80% { clip: rect(25px, 9999px, 90px, 0); }
+            100% { clip: rect(50px, 9999px, 20px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 95px, 0); }
+            20% { clip: rect(15px, 9999px, 35px, 0); }
+            40% { clip: rect(80px, 9999px, 10px, 0); }
+            60% { clip: rect(40px, 9999px, 75px, 0); }
+            80% { clip: rect(90px, 9999px, 25px, 0); }
+            100% { clip: rect(20px, 9999px, 60px, 0); }
+        }
+
+        /* Video Card Hover */
+        .video-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0,100,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .video-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(0, 100, 255, 0.4);
+        }
+
+        .video-card .play-btn {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .play-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Scramble Text Effect */
+        .scramble-text {
+            font-family: 'Rajdhani', monospace;
+            letter-spacing: 2px;
+        }
+
+        /* Reveal Animation */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Waveform Animation */
+        .waveform {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 40px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, #0064ff, #00c3ff);
+            border-radius: 2px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 20%; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 60%; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 80%; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 30%; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 70%; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 50%; animation-delay: 0.6s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background-color: #0064ff;
+        }
+
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(0, 100, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-outline.hover {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 100, 255, 0.1);
+            border-color: #0064ff;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0064ff, #00c3ff);
+            border-radius: 4px;
+        }
+
+        /* Glass Card */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Navigation Logo */
+        .nav-logo {
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(0, 100, 255, 0.6));
+        }
+
+        /* Footer Logo */
+        .footer-logo {
+            filter: grayscale(100%) brightness(2);
+            transition: all 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.05);
+        }
+
+        /* Video Controls Custom */
+        video::-webkit-media-controls {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        video::-webkit-media-controls-panel {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Showreel Section */
+        .showreel-section {
+            position: relative;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,100,255,0.05) 50%, transparent 100%);
+        }
+
+        .showreel-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 100, 255, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Film Grain Overlay -->
+    <div class="film-grain"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Cinematic Background -->
+    <div class="cinematic-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <!-- Small Logo in Nav - NEW BLUE M LOGO -->
+                <div class="nav-logo w-10 h-10 relative">
+                    <div class="absolute inset-0 bg-blue-600/30 rounded-lg blur-lg"></div>
+                    <img src="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg" 
+                         alt="MediaMetrixx Logo" 
+                         class="w-full h-full object-contain rounded-lg relative z-10 border border-blue-500/30">
+                </div>
+                <span class="text-2xl font-bold tracking-wider font-['Rajdhani'] hidden sm:block">
+                    MEDIA<span class="text-blue-500">METRIXX</span>
+                </span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="text-sm uppercase tracking-widest hover:text-blue-500 transition-colors">Home</a>
+                <a href="#showreel" class="text-sm uppercase tracking-widest hover:text-blue-500 transition-colors">Showreel</a>
+                <a href="#work" class="text-sm uppercase tracking-widest hover:text-blue-500 transition-colors">Portfolio</a>
+                <a href="#services" class="text-sm uppercase tracking-widest hover:text-blue-500 transition-colors">Services</a>
+                <a href="#contact" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg shadow-blue-600/30">
+                    Start Project
+                </a>
+            </div>
+
+            <button class="md:hidden text-white" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass-panel border-t border-white/10">
+            <div class="flex flex-col p-6 gap-4">
+                <a href="#home" class="text-lg hover:text-blue-500">Home</a>
+                <a href="#showreel" class="text-lg hover:text-blue-500">Showreel</a>
+                <a href="#work" class="text-lg hover:text-blue-500">Portfolio</a>
+                <a href="#services" class="text-lg hover:text-blue-500">Services</a>
+                <a href="#contact" class="text-lg text-blue-500 font-semibold">Start Project →</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex flex-col items-center justify-center relative pt-20 px-6 overflow-hidden">
+        
+        <!-- Hero Logo Section -->
+        <div class="hero-logo-section w-full flex flex-col items-center justify-center mb-8">
+            <!-- Main 3D Logo Container - NEW BLUE M LOGO -->
+            <div class="logo-container mb-6">
+                <div class="logo-glow"></div>
+                <div class="logo-card w-full h-full rounded-2xl p-3 flex items-center justify-center relative overflow-hidden">
+                    <img src="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg" 
+                         alt="MediaMetrixx Logo" 
+                         class="w-full h-full object-contain relative z-10 drop-shadow-2xl">
+                </div>
+            </div>
+
+            <!-- Tagline under logo -->
+            <div class="text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-blue-500/30 mb-6">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                    <span class="text-xs uppercase tracking-widest text-blue-400">Professional Video Editing</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rest of Hero Content -->
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
+            <div class="space-y-8 text-center lg:text-left">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight">
+                    We Craft <br>
+                    <span class="glitch text-blue-500" data-text="Visual Stories">Visual Stories</span>
+                </h1>
+
+                <p class="text-xl text-gray-400 max-w-lg leading-relaxed mx-auto lg:mx-0">
+                    Professional video editing that transforms raw footage into cinematic masterpieces. 
+                    Where creativity meets precision.
+                </p>
+
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <a href="#showreel" class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition-all hover:scale-105 flex items-center gap-3 shadow-lg shadow-blue-600/30">
+                        Watch Showreel
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                        </svg>
+                    </a>
+                    <button class="px-8 py-4 glass-panel hover:bg-white/10 rounded-full font-semibold transition-all border border-white/20">
+                        Our Process
+                    </button>
+                </div>
+
+                <!-- Waveform Visualizer -->
+                <div class="waveform opacity-50 justify-center lg:justify-start">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+
+            <!-- Hero Video Preview -->
+            <div class="relative">
+                <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl opacity-30 blur-2xl animate-pulse"></div>
+                <div class="relative glass-panel rounded-3xl p-2">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer" onclick="document.getElementById('showreel').scrollIntoView({behavior: 'smooth'})">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'grid\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'%3E%3Cpath d=\'M 20 0 L 0 0 0 20\' fill=\'none\' stroke=\'rgba(255,255,255,0.05)\' stroke-width=\'1\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'url(%23grid)\' /%3E%3C/svg%3E')] opacity-30"></div>
+                        
+                        <div class="w-20 h-20 bg-blue-600/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-blue-600/50">
+                            <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.3 5.84a.75.75 0 00-1.06 1.06l4.78 4.78-4.78 4.78a.75.75 0 101.06 1.06l5.25-5.25a.75.75 0 000-1.06L6.3 5.84z"/>
+                            </svg>
+                        </div>
+
+                        <div class="absolute bottom-4 left-4 font-mono text-sm text-white/60 scramble-text">
+                            00:00:14:23
+                        </div>
+                        <div class="absolute bottom-4 right-4 font-mono text-sm text-white/60">
+                            4K 60FPS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Stats -->
+                <div class="absolute -bottom-6 -right-6 glass-panel rounded-2xl p-4 border border-blue-500/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold">500+</div>
+                            <div class="text-xs text-gray-400">Videos Edited</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <span class="text-xs uppercase tracking-widest">Scroll</span>
+            <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- SHOWREEL SECTION - NEW -->
+    <section id="showreel" class="showreel-section">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-5xl md:text-6xl font-bold mb-4">Our <span class="text-blue-500">Showreel</span></h2>
+                <p class="text-gray-400 text-lg">Watch our best work in action</p>
+            </div>
+
+            <!-- Video Player -->
+            <div class="showreel-container">
+                <div class="showreel-badge">2024 Reel</div>
+                <video 
+                    class="showreel-video" 
+                    controls 
+                    poster="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg"
+                    preload="metadata">
+                    <source src="/mnt/kimi/upload/0CE3B635-39D3-4ACF-B2E5-2E83B5B675E5.showreel.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Custom Overlay -->
+                <div class="video-overlay">
+                    <div class="text-center">
+                        <p class="text-white/80 text-sm mb-4 uppercase tracking-widest">Click to Play</p>
+                        <div class="play-button" onclick="document.querySelector('.showreel-video').play()">
+                            <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.3 5.84a.75.75 0 00-1.06 1.06l4.78 4.78-4.78 4.78a.75.75 0 101.06 1.06l5.25-5.25a.75.75 0 000-1.06L6.3 5.84z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Info -->
+            <div class="mt-8 flex flex-wrap justify-center gap-8 text-center">
+                <div class="glass-panel rounded-2xl px-6 py-4">
+                    <div class="text-2xl font-bold text-blue-500">0:36</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">Duration</div>
+                </div>
+                <div class="glass-panel rounded-2xl px-6 py-4">
+                    <div class="text-2xl font-bold text-cyan-500">4K</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">Resolution</div>
+                </div>
+                <div class="glass-panel rounded-2xl px-6 py-4">
+                    <div class="text-2xl font-bold text-purple-500">60fps</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">Frame Rate</div>
+                </div>
+                <div class="glass-panel rounded-2xl px-6 py-4">
+                    <div class="text-2xl font-bold text-green-500">2024</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">Latest</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software & Tools -->
+    <section class="py-16 px-6 border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <p class="text-center text-sm uppercase tracking-widest text-gray-500 mb-8">Trusted Tools We Use</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
+                <div class="flex items-center gap-2 text-xl font-bold hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="text-purple-500">Pr</span> Premiere Pro
+                </div>
+                <div class="flex items-center gap-2 text-xl font-bold hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="text-pink-500">Ae</span> After Effects
+                </div>
+                <div class="flex items-center gap-2 text-xl font-bold hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="text-blue-500">DaVinci</span> Resolve
+                </div>
+                <div class="flex items-center gap-2 text-xl font-bold hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="text-orange-500">Final</span> Cut Pro
+                </div>
+                <div class="flex items-center gap-2 text-xl font-bold hover:opacity-100 transition-opacity cursor-pointer">
+                    <span class="text-yellow-500">Blender</span> 3D
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work -->
+    <section id="work" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h2 class="text-5xl md:text-6xl font-bold mb-4">Featured <span class="text-blue-500">Edits</span></h2>
+                    <p class="text-gray-400 text-lg">Recent projects that showcase our craft</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-4 py-2 rounded-full glass-panel text-sm hover:bg-white/10 transition-all">All</button>
+                    <button class="px-4 py-2 rounded-full glass-panel text-sm hover:bg-white/10 transition-all">Commercial</button>
+                    <button class="px-4 py-2 rounded-full glass-panel text-sm hover:bg-white/10 transition-all">Music</button>
+                    <button class="px-4 py-2 rounded-full glass-panel text-sm hover:bg-white/10 transition-all">YouTube</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project Cards -->
+                <div class="video-card group rounded-2xl overflow-hidden glass-panel cursor-pointer">
+                    <div class="aspect-video bg-gradient-to-br from-purple-900 to-blue-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-4xl">🎬</span>
+                        </div>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="play-btn w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-600/50">
+                                <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M6.3 5.84a.75.75 0 00-1.06 1.06l4.78 4.78-4.78 4.78a.75.75 0 101.06 1.06l5.25-5.25a.75.75 0 000-1.06L6.3 5.84z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs font-mono">02:34</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold group-hover:text-blue-500 transition-colors">Brand Commercial</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider">Ad</span>
+                        </div>
+                        <p class="text-gray-400 text-sm">High-energy product launch video with motion graphics</p>
+                    </div>
+                </div>
+
+                <div class="video-card group rounded-2xl overflow-hidden glass-panel cursor-pointer">
+                    <div class="aspect-video bg-gradient-to-br from-pink-900 to-purple-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-4xl">🎵</span>
+                        </div>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="play-btn w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-600/50">
+                                <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M6.3 5.84a.75.75 0 00-1.06 1.06l4.78 4.78-4.78 4.78a.75.75 0 101.06 1.06l5.25-5.25a.75.75 0 000-1.06L6.3 5.84z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs font-mono">04:12</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold group-hover:text-blue-500 transition-colors">Music Video</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider">Music</span>
+                        </div>
+                        <p class="text-gray-400 text-sm">Cinematic color grading and creative transitions</p>
+                    </div>
+                </div>
+
+                <div class="video-card group rounded-2xl overflow-hidden glass-panel cursor-pointer">
+                    <div class="aspect-video bg-gradient-to-br from-green-900 to-teal-900 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-4xl">📺</span>
+                        </div>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="play-btn w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-600/50">
+                                <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M6.3 5.84a.75.75 0 00-1.06 1.06l4.78 4.78-4.78 4.78a.75.75 0 101.06 1.06l5.25-5.25a.75.75 0 000-1.06L6.3 5.84z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 rounded-full text-xs font-mono">15:45</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold group-hover:text-blue-500 transition-colors">YouTube Documentary</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider">Content</span>
+                        </div>
+                        <p class="text-gray-400 text-sm">Long-form storytelling with dynamic pacing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="px-8 py-4 glass-panel hover:bg-white/10 rounded-full font-semibold transition-all border border-white/20 inline-flex items-center gap-2 group">
+                    View All Projects
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-bold mb-4">Our <span class="text-blue-500">Services</span></h2>
+                <p class="text-gray-400 text-lg">End-to-end video production solutions</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-panel rounded-2xl p-8 hover:bg-white/5 transition-all group cursor-pointer border border-transparent hover:border-blue-500/30">
+                    <div class="w-14 h-14 bg-blue-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Video Editing</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Professional cuts, transitions, and pacing for maximum impact</p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-8 hover:bg-white/5 transition-all group cursor-pointer border border-transparent hover:border-blue-500/30">
+                    <div class="w-14 h-14 bg-cyan-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Color Grading</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Cinematic color correction and creative grading</p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-8 hover:bg-white/5 transition-all group cursor-pointer border border-transparent hover:border-blue-500/30">
+                    <div class="w-14 h-14 bg-purple-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Motion Graphics</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Animated titles, lower thirds, and visual effects</p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-8 hover:bg-white/5 transition-all group cursor-pointer border border-transparent hover:border-blue-500/30">
+                    <div class="w-14 h-14 bg-green-600/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sound Design</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Audio mixing, SFX, and background music integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Timeline -->
+    <section class="py-24 px-6 bg-black/50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-bold mb-4">Our <span class="text-blue-500">Process</span></h2>
+                <p class="text-gray-400 text-lg">From raw footage to final delivery</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-600 via-cyan-600 to-purple-600"></div>
+
+                <div class="relative flex items-center mb-12 md:mb-24">
+                    <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-black z-10"></div>
+                    <div class="ml-20 md:ml-0 md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-panel rounded-2xl p-6 inline-block text-left border-l-4 border-blue-600">
+                            <div class="text-blue-500 font-bold mb-2 scramble-text">01 // INGEST</div>
+                            <h3 class="text-xl font-bold mb-2">Footage Organization</h3>
+                            <p class="text-gray-400 text-sm">We organize and backup all your raw footage, creating proxies for smooth editing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center mb-12 md:mb-24 md:flex-row-reverse">
+                    <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-cyan-600 rounded-full border-4 border-black z-10"></div>
+                    <div class="ml-20 md:ml-0 md:w-1/2 md:pl-12">
+                        <div class="glass-panel rounded-2xl p-6 inline-block border-r-4 border-cyan-600 md:border-r-0 md:border-l-4">
+                            <div class="text-cyan-500 font-bold mb-2 scramble-text">02 // EDIT</div>
+                            <h3 class="text-xl font-bold mb-2">Rough Cut & Assembly</h3>
+                            <p class="text-gray-400 text-sm">Story structure, pacing, and selecting the best takes for narrative flow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center mb-12 md:mb-24">
+                    <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-purple-600 rounded-full border-4 border-black z-10"></div>
+                    <div class="ml-20 md:ml-0 md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-panel rounded-2xl p-6 inline-block text-left border-l-4 border-purple-600">
+                            <div class="text-purple-500 font-bold mb-2 scramble-text">03 // ENHANCE</div>
+                            <h3 class="text-xl font-bold mb-2">Color & Graphics</h3>
+                            <p class="text-gray-400 text-sm">Professional color grading, motion graphics, and visual effects integration</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center md:flex-row-reverse">
+                    <div class="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-green-600 rounded-full border-4 border-black z-10"></div>
+                    <div class="ml-20 md:ml-0 md:w-1/2 md:pl-12">
+                        <div class="glass-panel rounded-2xl p-6 inline-block border-r-4 border-green-600 md:border-r-0 md:border-l-4">
+                            <div class="text-green-500 font-bold mb-2 scramble-text">04 // DELIVER</div>
+                            <h3 class="text-xl font-bold mb-2">Final Export</h3>
+                            <p class="text-gray-400 text-sm">Multiple format exports optimized for web, broadcast, or cinema</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Logo -->
+    <section id="about" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-5xl md:text-6xl font-bold mb-6">Why Choose <span class="text-blue-500">MediaMetrixx</span>?</h2>
+                <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                    We're not just editors – we're visual storytellers. With years of experience in the industry, 
+                    we understand the nuances of pacing, emotion, and visual impact.
+                </p>
+
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1">Fast Turnaround</h4>
+                            <p class="text-gray-400 text-sm">Quick delivery without compromising on quality</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1">Secure Workflow</h4>
+                            <p class="text-gray-400 text-sm">Your footage is safe with our encrypted storage</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-1">Unlimited Revisions</h4>
+                            <p class="text-gray-400 text-sm">We work until you're 100% satisfied with the result</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logo Showcase in About - NEW BLUE M LOGO -->
+            <div class="relative flex items-center justify-center">
+                <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl opacity-20 blur-2xl animate-pulse"></div>
+                <div class="relative glass-panel rounded-3xl p-12 flex flex-col items-center">
+                    <div class="w-48 h-48 relative mb-6">
+                        <div class="absolute inset-0 bg-blue-600/30 rounded-3xl blur-2xl animate-pulse"></div>
+                        <img src="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg" 
+                             alt="MediaMetrixx Logo" 
+                             class="w-full h-full object-contain relative z-10 rounded-2xl border border-blue-500/30">
+                    </div>
+                    <div class="grid grid-cols-2 gap-6 w-full">
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <div class="text-3xl font-bold text-blue-500 mb-1">5+</div>
+                            <div class="text-xs text-gray-400">Years Experience</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <div class="text-3xl font-bold text-cyan-500 mb-1">500+</div>
+                            <div class="text-xs text-gray-400">Videos Delivered</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <div class="text-3xl font-bold text-purple-500 mb-1">50+</div>
+                            <div class="text-xs text-gray-400">Happy Clients</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/5 rounded-2xl">
+                            <div class="text-3xl font-bold text-green-500 mb-1">24h</div>
+                            <div class="text-xs text-gray-400">Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-24 px-6 bg-black/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-bold mb-4">Simple <span class="text-blue-500">Pricing</span></h2>
+                <p class="text-gray-400 text-lg">Transparent rates for quality work</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Basic -->
+                <div class="glass-panel rounded-3xl p-8 border border-white/10 hover:border-blue-500/50 transition-all">
+                    <div class="text-sm text-gray-400 uppercase tracking-widest mb-4">Basic</div>
+                    <div class="text-4xl font-bold mb-2">₹5,000</div>
+                    <div class="text-gray-500 text-sm mb-8">per video (up to 5 min)</div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Basic cuts & transitions
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Simple color correction
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            2 revision rounds
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            3-5 day delivery
+                        </li>
+                    </ul>
+
+                    <button class="w-full py-3 border border-white/20 rounded-full hover:bg-white/10 transition-all font-semibold">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Professional -->
+                <div class="glass-panel rounded-3xl p-8 border-2 border-blue-500 relative transform scale-105 shadow-lg shadow-blue-500/20">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 rounded-full text-xs font-bold">
+                        MOST POPULAR
+                    </div>
+                    <div class="text-sm text-blue-400 uppercase tracking-widest mb-4">Professional</div>
+                    <div class="text-4xl font-bold mb-2">₹15,000</div>
+                    <div class="text-gray-500 text-sm mb-8">per video (up to 10 min)</div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Advanced editing & effects
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Cinematic color grading
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Motion graphics & titles
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Sound design & mixing
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Unlimited revisions
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            2-3 day delivery
+                        </li>
+                    </ul>
+
+                    <button class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-full transition-all font-semibold shadow-lg shadow-blue-600/30">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="glass-panel rounded-3xl p-8 border border-white/10 hover:border-blue-500/50 transition-all">
+                    <div class="text-sm text-gray-400 uppercase tracking-widest mb-4">Enterprise</div>
+                    <div class="text-4xl font-bold mb-2">Custom</div>
+                    <div class="text-gray-500 text-sm mb-8">tailored solutions</div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Everything in Pro
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            VFX & 3D animation
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Dedicated editor
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Priority support
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Same-day delivery
+                        </li>
+                    </ul>
+
+                    <button class="w-full py-3 border border-white/20 rounded-full hover:bg-white/10 transition-all font-semibold">
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden border border-blue-500/20">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
+                
+                <div class="text-center mb-12 relative z-10">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Start Your <span class="text-blue-500">Project</span></h2>
+                    <p class="text-gray-400 text-lg">Tell us about your video and we'll get back within 24 hours</p>
+                </div>
+
+                <form class="space-y-6 relative z-10" onsubmit="event.preventDefault(); showSuccess();">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none transition-colors text-white placeholder-gray-500" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none transition-colors text-white placeholder-gray-500" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Video Type</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none transition-colors text-white">
+                                <option>YouTube Video</option>
+                                <option>Commercial/Ad</option>
+                                <option>Music Video</option>
+                                <option>Wedding/Event</option>
+                                <option>Corporate</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Budget Range</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none transition-colors text-white">
+                                <option>₹5,000 - ₹10,000</option>
+                                <option>₹10,000 - ₹25,000</option>
+                                <option>₹25,000 - ₹50,000</option>
+                                <option>₹50,000+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Project Details</label>
+                        <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none transition-colors text-white placeholder-gray-500 resize-none" placeholder="Describe your project, duration, style preferences..." required></textarea>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="footage" class="w-4 h-4 rounded border-white/20 bg-white/5 text-blue-600 focus:ring-blue-500">
+                        <label for="footage" class="text-sm text-gray-400">I have raw footage ready for editing</label>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-lg shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]">
+                        Send Project Brief 🎬
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-white/10 bg-black/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-4 mb-4">
+                        <!-- Footer Logo - NEW BLUE M LOGO -->
+                        <div class="footer-logo w-14 h-14 relative">
+                            <img src="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg" 
+                                 alt="MediaMetrixx Logo" 
+                                 class="w-full h-full object-contain rounded-xl border border-white/20">
+                        </div>
+                        <span class="text-2xl font-bold tracking-wider font-['Rajdhani']">
+                            MEDIA<span class="text-blue-500">METRIXX</span>
+                        </span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-sm">
+                        Professional video editing agency transforming raw footage into cinematic stories. 
+                        Based in India, serving clients worldwide.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4 text-blue-500">Services</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Video Editing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Color Grading</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Motion Graphics</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sound Design</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4 text-blue-500">Connect</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-blue-600/20 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-blue-600/20 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-blue-600/20 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-gray-500 text-sm">
+                    © 2024 MediaMetrixx. All rights reserved.
+                </div>
+                <div class="flex gap-6 text-sm text-gray-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="glass-panel rounded-3xl p-8 max-w-md mx-4 text-center transform scale-0 transition-transform duration-300 border border-blue-500/30" id="modalContent">
+            <div class="w-24 h-24 mx-auto mb-6 relative">
+                <div class="absolute inset-0 bg-blue-600/30 rounded-full blur-xl animate-pulse"></div>
+                <img src="/mnt/kimi/upload/DA447C5C-46B2-4146-9064-9436414E3944.jpg" 
+                     alt="Success" 
+                     class="w-full h-full object-contain relative z-10 rounded-full border-2 border-blue-500">
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Project Received!</h3>
+            <p class="text-gray-400 mb-6">We'll review your brief and get back to you within 24 hours with a quote.</p>
+            <button onclick="closeModal()" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition-all">
+                Awesome!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effect for cursor
+        document.querySelectorAll('a, button, .video-card, .logo-container, .showreel-container').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        });
+
+        // Mobile Menu
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                }
+            });
+        });
+
+        // Success Modal
+        function showSuccess() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-0');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            const content = document.getElementById('modalContent');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Logo 3D Tilt Effect
+        const logoContainer = document.querySelector('.logo-container');
+        if (logoContainer) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                logoContainer.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+        }
+
+        // Glitch Effect Randomizer
+        setInterval(() => {
+            const glitch = document.querySelector('.glitch');
+            if (glitch && Math.random() > 0.95) {
+                glitch.style.animation = 'none';
+                setTimeout(() => {
+                    glitch.style.animation = '';
+                }, 100);
+            }
+        }, 2000);
+
+        // Video Play/Pause Toggle
+        const video = document.querySelector('.showreel-video');
+        const playButton = document.querySelector('.play-button');
+        
+        if (video && playButton) {
+            playButton.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playButton.style.opacity = '0';
+                } else {
+                    video.pause();
+                    playButton.style.opacity = '1';
+                }
+            });
+
+            video.addEventListener('play', () => {
+                playButton.style.opacity = '0';
+            });
+
+            video.addEventListener('pause', () => {
+                playButton.style.opacity = '1';
+            });
+        }
+    </script>
+</body>
+</html>
